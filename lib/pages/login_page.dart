@@ -12,14 +12,34 @@ class LoginPage extends StatelessWidget {
   }
 
   _body() {
-    return Center(
-      child: Container(
-        child: Text(
-          "App Carros",
-          style: TextStyle(
-            fontSize: 30,
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: ListView(
+        children: <Widget>[
+          Text("Login"),
+          TextFormField(),
+          SizedBox(height: 16),
+          Text("Senha"),
+          TextFormField(
+            obscureText: true,
           ),
-        ),
+          SizedBox(height: 16),
+          Container(
+            margin: EdgeInsets.only(top: 8),
+            height: 46,
+            child: RaisedButton(
+              color: Colors.blue,
+              child: Text(
+                "Clicar",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                ),
+              ),
+              onPressed: () => {},
+            ),
+          ),
+        ],
       ),
     );
   }
