@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final controleLogin = TextEditingController();
+
   final controleSenha = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  final _focusSenha = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +36,9 @@ class LoginPage extends StatelessWidget {
               "Login",
               controller: controleLogin,
               validator: _validateLogin,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              focusNext: _focusSenha,
             ),
             SizedBox(height: 16),
             _textFormField(
@@ -36,6 +47,8 @@ class LoginPage extends StatelessWidget {
               obscureText: true,
               controller: controleSenha,
               validator: _validateSenha,
+              keyboardType: TextInputType.number,
+              focusNode: _focusSenha,
             ),
             SizedBox(height: 16),
             Container(
@@ -55,20 +68,34 @@ class LoginPage extends StatelessWidget {
   }
 
   TextFormField _textFormField(
-    String param,
+    String label,
     String hint, {
     bool obscureText = false,
     TextEditingController controller,
     FormFieldValidator<String> validator,
+    TextInputType keyboardType,
+    Brightness keyboardAppearance,
+    TextInputAction textInputAction,
+    FocusNode focusNode,
+    FocusNode focusNext,
   }) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        labelText: param,
+        labelText: label,
         hintText: hint,
       ),
       obscureText: obscureText,
       validator: validator,
+      keyboardType: keyboardType,
+      keyboardAppearance: Brightness.light,
+      textInputAction: textInputAction,
+      focusNode: focusNode,
+      onFieldSubmitted: (String text) {
+        if (focusNext != null) {
+          FocusScope.of(context).requestFocus(focusNext);
+        }
+      },
     );
   }
 
