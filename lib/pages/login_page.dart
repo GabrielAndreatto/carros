@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
     return Center(
       child: Container(
         child: Text(
-          "App Carros - Curso 2",
+          "App Carros",
           style: TextStyle(
             fontSize: 30,
           ),
