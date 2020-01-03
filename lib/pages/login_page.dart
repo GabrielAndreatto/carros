@@ -1,3 +1,5 @@
+import 'package:carros/widgets/app_button.dart';
+import 'package:carros/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.all(16),
         child: ListView(
           children: <Widget>[
-            _textFormField(
+            AppTextFormField(
               "LOGIN",
               "Login",
               controller: controleLogin,
@@ -41,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
               focusNext: _focusSenha,
             ),
             SizedBox(height: 16),
-            _textFormField(
+            AppTextFormField(
               "SENHA",
               "Senha",
               obscureText: true,
@@ -51,65 +53,13 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: _focusSenha,
             ),
             SizedBox(height: 16),
-            Container(
-              margin: EdgeInsets.only(top: 8),
-              height: 46,
-              child: _raisedButton(
-                "LOGIN",
-                () {
-                  _onClickLogin();
-                },
-              ),
+            AppButton(
+              "LOGIN",
+              onPressed: _onClickLogin,
             ),
           ],
         ),
       ),
-    );
-  }
-
-  TextFormField _textFormField(
-    String label,
-    String hint, {
-    bool obscureText = false,
-    TextEditingController controller,
-    FormFieldValidator<String> validator,
-    TextInputType keyboardType,
-    Brightness keyboardAppearance,
-    TextInputAction textInputAction,
-    FocusNode focusNode,
-    FocusNode focusNext,
-  }) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-      ),
-      obscureText: obscureText,
-      validator: validator,
-      keyboardType: keyboardType,
-      keyboardAppearance: Brightness.light,
-      textInputAction: textInputAction,
-      focusNode: focusNode,
-      onFieldSubmitted: (String text) {
-        if (focusNext != null) {
-          FocusScope.of(context).requestFocus(focusNext);
-        }
-      },
-    );
-  }
-
-  RaisedButton _raisedButton(String name, Function onPressed) {
-    return RaisedButton(
-      color: Colors.blue,
-      child: Text(
-        name,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 22,
-        ),
-      ),
-      onPressed: onPressed,
     );
   }
 
