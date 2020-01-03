@@ -12,6 +12,9 @@ class AppButton extends StatelessWidget {
       margin: EdgeInsets.only(top: 8),
       height: 46,
       child: RaisedButton(
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(16.0),
+        ),
         color: Colors.blue,
         child: Text(
           name,
