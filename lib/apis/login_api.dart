@@ -21,6 +21,10 @@ class LoginApi {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
+    Map objRet = json.decode(response.body);
+    print(objRet["nome"]);
+    print(objRet["email"]);
+
     return true;
   }
 }
