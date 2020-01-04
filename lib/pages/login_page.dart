@@ -1,3 +1,4 @@
+import 'package:carros/apis/login_api.dart';
 import 'package:carros/pages/home_page.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/app_button.dart';
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _onClickLogin() {
+  _onClickLogin() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -76,10 +77,13 @@ class _LoginPageState extends State<LoginPage> {
     // controleLogin.text = novo nome
     print("Login: $login senha: $senha");
 
-    push(
-      context,
-      HomePage(),
-    );
+    bool ok = await LoginApi.login(login, senha);
+
+    if (ok) {
+      push(context, HomePage());
+    } else {
+      print("Login incorreto");
+    }
   }
 
   String _validateLogin(String value) {
