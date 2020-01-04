@@ -1,3 +1,5 @@
+import 'package:carros/pages/home_page.dart';
+import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/app_button.dart';
 import 'package:carros/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +75,11 @@ class _LoginPageState extends State<LoginPage> {
 
     // controleLogin.text = novo nome
     print("Login: $login senha: $senha");
+
+    push(
+      context,
+      HomePage(),
+    );
   }
 
   String _validateLogin(String value) {
