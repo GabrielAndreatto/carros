@@ -4,7 +4,9 @@ class AppButton extends StatelessWidget {
   String name;
   Function onPressed;
 
-  AppButton(this.name, {this.onPressed});
+  bool showProgress;
+
+  AppButton(this.name, {this.onPressed, this.showProgress = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +18,19 @@ class AppButton extends StatelessWidget {
           borderRadius: new BorderRadius.circular(16.0),
         ),
         color: Colors.blue,
-        child: Text(
-          name,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-          ),
-        ),
+        child: showProgress
+            ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : Text(
+                name,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                ),
+              ),
         onPressed: onPressed,
       ),
     );

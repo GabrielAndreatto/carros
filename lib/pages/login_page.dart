@@ -1,7 +1,8 @@
-import 'package:carros/apis/login_api.dart';
-import 'package:carros/models/usuario.dart';
+import 'package:carros/apis/login/login_api.dart';
+import 'package:carros/apis/login/login_api_response.dart';
 import 'package:carros/pages/home_page.dart';
 import 'package:carros/utils/nav.dart';
+import 'package:carros/utils/show_dialog.dart';
 import 'package:carros/widgets/app_button.dart';
 import 'package:carros/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _focusSenha = FocusNode();
+
+  bool _showProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             AppButton(
               "LOGIN",
               onPressed: _onClickLogin,
+              showProgress: _showProgress,
             ),
           ],
         ),
@@ -78,13 +82,19 @@ class _LoginPageState extends State<LoginPage> {
     // controleLogin.text = novo nome
     print("Login: $login senha: $senha");
 
-    Usuario user = await LoginApi.login(login, senha);
+    setState(() {
+      _showProgress = true;
+    });
 
-    if (user != null) {
+    LoginApiResponse response = await LoginApi.login(login, senha);
+
+    if (response.ok) {
       push(context, HomePage());
     } else {
-      print("Login incorreto");
+      alertDialog(context, response.msg);
     }
+
+    _showProgress = false;
   }
 
   String _validateLogin(String value) {
@@ -98,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
     if (value.isEmpty) {
       return "Digite a senha";
     }
-    if (value.length < 4) {
+    if (value.length < 3) {
       return "Min 4 caracteres";
     }
     return null;
