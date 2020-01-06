@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppgBar(
+      appBar: AppBar(
         title: Text("Carros"),
       ),
       body: _body(),
@@ -89,9 +89,13 @@ class _LoginPageState extends State<LoginPage> {
     LoginApiResponse response = await LoginApi.login(login, senha);
 
     if (response.ok) {
-      push(context, HomePage());
+      push(context, HomePage(), replace: true);
     } else {
       alertDialog(context, response.msg);
+
+      setState(() {
+        _showProgress = false;
+      });
     }
 
     _showProgress = false;
