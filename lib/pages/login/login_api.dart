@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:carros/apis/login/login_api_response.dart';
-import 'package:carros/models/usuario.dart';
+import 'package:carros/pages/login/usuario.dart';
 import 'package:http/http.dart' as http;
+import '../../utils/login_api_response.dart';
 
 class LoginApi {
   static Future<LoginApiResponse<Usuario>> login(
