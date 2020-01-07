@@ -1,92 +1,17 @@
 import 'package:carros/pages/carro/carro.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class CarroApi {
-  static List<Carro> getCarros() {
-    final carros = List<Carro>();
+  static Future<List<Carro>> getCarros() async {
+    var url = "https://carros-springboot.herokuapp.com/api/v1/carros";
 
-    carros.add(
-      Carro(
-          nome: "Porsche Panamera",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Porsche_Panamera.png"),
-    );
+    var response = await http.get(url);
+    String json = response.body;
+    List list = convert.json.decode(json);
 
-    carros.add(
-      Carro(
-          nome: "Chevrolet Corvette Z06",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Chevrolet_Corvette_Z06.png"),
-    );
+    List<Carro> carros = list.map<Carro>((map) => Carro.fromJson(map)).toList();
 
-    carros.add(
-      Carro(
-          nome: "BMW M5",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/BMW.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "Porsche Panamera",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Porsche_Panamera.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "Chevrolet Corvette Z06",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Chevrolet_Corvette_Z06.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "BMW M5",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/BMW.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "Porsche Panamera",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Porsche_Panamera.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "Chevrolet Corvette Z06",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Chevrolet_Corvette_Z06.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "BMW M5",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/BMW.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "Porsche Panamera",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Porsche_Panamera.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "Chevrolet Corvette Z06",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/Chevrolet_Corvette_Z06.png"),
-    );
-
-    carros.add(
-      Carro(
-          nome: "BMW M5",
-          urlFoto:
-              "http://www.livroandroid.com.br/livro/carros/esportivos/BMW.png"),
-    );
     return carros;
   }
 }
