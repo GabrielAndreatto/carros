@@ -77,8 +77,11 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    String login = controleLogin.text;
-    String senha = controleSenha.text;
+    // String login = controleLogin.text;
+    // String senha = controleSenha.text;
+
+    String login = controleLogin.text = "user";
+    String senha = controleSenha.text = "123";
 
     // controleLogin.text = novo nome
     print("Login: $login senha: $senha");
