@@ -1,4 +1,5 @@
 import 'package:carros/pages/carro/home_page.dart';
+import 'package:carros/pages/login/usuario.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/utils/show_dialog.dart';
 import 'package:carros/widgets/app_button.dart';
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //final controleLogin = TextEditingController(text: "user ");
   final controleLogin = TextEditingController();
 
   final controleSenha = TextEditingController();
@@ -23,6 +25,19 @@ class _LoginPageState extends State<LoginPage> {
   final _focusSenha = FocusNode();
 
   bool _showProgress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future<Usuario> future = Usuario.get();
+    future.then((Usuario usuario) {
+      if (usuario != null) {
+        setState(() {
+          push(context, HomePage(), replace: true);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
