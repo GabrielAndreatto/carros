@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:carros/pages/login/usuario.dart';
+import 'package:carros/utils/prefs.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/login_api_response.dart';
 
@@ -31,6 +32,10 @@ class LoginApi {
 
       if (response.statusCode == 200) {
         final user = Usuario.fromJson(mapResponse);
+        user.save();
+
+        Usuario user2 = await Usuario.get();
+        print("User 2: > ${user2}");
 
         return LoginApiResponse.ok(user);
       }
