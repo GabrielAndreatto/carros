@@ -2,6 +2,8 @@ import "dart:convert" as convert;
 
 import 'package:carros/utils/prefs.dart';
 
+// https://javiercbk.github.io/json_to_dart/
+
 class Usuario {
   int id;
   String login;
