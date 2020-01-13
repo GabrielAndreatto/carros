@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carros/pages/carro/home_page.dart';
 import 'package:carros/pages/login/usuario.dart';
 import 'package:carros/utils/nav.dart';
@@ -15,6 +17,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _streamController = StreamController<bool>();
+
   //final controleLogin = TextEditingController(text: "user ");
   final controleLogin = TextEditingController();
 
@@ -23,8 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _focusSenha = FocusNode();
-
-  bool _showProgress = false;
 
   @override
   void initState() {
@@ -76,11 +78,16 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: _focusSenha,
             ),
             SizedBox(height: 16),
-            AppButton(
-              "LOGIN",
-              onPressed: _onClickLogin,
-              showProgress: _showProgress,
-            ),
+            StreamBuilder<Object>(
+                stream: _streamController.stream,
+                initialData: false,
+                builder: (context, snapshot) {
+                  return AppButton(
+                    "LOGIN",
+                    onPressed: _onClickLogin,
+                    showProgress: snapshot.data,
+                  );
+                }),
           ],
         ),
       ),
@@ -101,9 +108,7 @@ class _LoginPageState extends State<LoginPage> {
     // controleLogin.text = novo nome
     print("Login: $login senha: $senha");
 
-    setState(() {
-      _showProgress = true;
-    });
+    _streamController.add(true);
 
     LoginApiResponse response = await LoginApi.login(login, senha);
 
@@ -112,12 +117,8 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       alertDialog(context, response.msg);
 
-      setState(() {
-        _showProgress = false;
-      });
+      _streamController.add(false);
     }
-
-    _showProgress = false;
   }
 
   String _validateLogin(String value) {

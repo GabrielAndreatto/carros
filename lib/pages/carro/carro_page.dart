@@ -26,7 +26,7 @@ class CarroPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              "${carro.nome} , ${carro.tipo}",
+              "${carro.nome}",
               textAlign: TextAlign.left,
               style: TextStyle(fontSize: 20),
             ),
@@ -35,6 +35,14 @@ class CarroPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, left: 8.0),
             child: Text(
               carro.descricao,
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, left: 8.0),
+            child: Text(
+              carro.tipo,
               textAlign: TextAlign.left,
               style: TextStyle(fontSize: 16),
             ),

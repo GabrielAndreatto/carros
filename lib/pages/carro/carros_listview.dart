@@ -65,7 +65,6 @@ class _CarrosListViewState extends State<CarrosListView>
             child: CircularProgressIndicator(),
           );
         }
-        ;
 
         List<Carro> carros = snapshot.data;
         return _listView(carros);
