@@ -1,5 +1,7 @@
 import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carro_api.dart';
+import 'package:carros/pages/carro/carro_page.dart';
+import 'package:carros/utils/nav.dart';
 import 'package:flutter/material.dart';
 
 class CarrosListView extends StatefulWidget {
@@ -19,10 +21,6 @@ class _CarrosListViewState extends State<CarrosListView>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return _body();
-  }
-
-  _body() {
     Future<List<Carro>> future = CarroApi.getCarros(widget.tipoCarros);
 
     return FutureBuilder(
@@ -94,7 +92,7 @@ class _CarrosListViewState extends State<CarrosListView>
                       children: <Widget>[
                         FlatButton(
                           child: const Text('DETALHES'),
-                          onPressed: () {/* ... */},
+                          onPressed: () => _onClickCarros(c),
                         ),
                         FlatButton(
                           child: const Text('SHARE'),
@@ -110,5 +108,9 @@ class _CarrosListViewState extends State<CarrosListView>
         },
       ),
     );
+  }
+
+  _onClickCarros(Carro c) {
+    push(context, CarroPage(c));
   }
 }
