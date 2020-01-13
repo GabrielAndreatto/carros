@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carro_api.dart';
 import 'package:carros/pages/carro/carro_page.dart';
@@ -14,28 +16,45 @@ class CarrosListView extends StatefulWidget {
 
 class _CarrosListViewState extends State<CarrosListView>
     with AutomaticKeepAliveClientMixin<CarrosListView> {
+  List<Carro> carros;
+  final _streamController = StreamController<List<Carro>>();
+
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+
+//    Future<List<Carro>> future = CarroApi.getCarros(widget.tipoCarros);
+//    future.then((List<Carro> pCarros) {
+//      setState(() {
+//        this.carros = pCarros;
+//      });
+//    });
+
+    _loadCarros();
+  }
+
+  void _loadCarros() async {
+    List<Carro> carros = await CarroApi.getCarros(widget.tipoCarros);
+    _streamController.add(carros);
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    Future<List<Carro>> future = CarroApi.getCarros(widget.tipoCarros);
-
-    return FutureBuilder(
-      future: future,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+    return StreamBuilder(
+      stream: _streamController.stream,
+      builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Center(
-              child: Text(
-                "Não foi possivel buscar os carros \n \n >> ${snapshot.error}!",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.red,
-                ),
+          return Center(
+            child: Text(
+              "Não foi possível buscar os carros...",
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 22,
               ),
             ),
           );
@@ -46,6 +65,8 @@ class _CarrosListViewState extends State<CarrosListView>
             child: CircularProgressIndicator(),
           );
         }
+        ;
+
         List<Carro> carros = snapshot.data;
         return _listView(carros);
       },
