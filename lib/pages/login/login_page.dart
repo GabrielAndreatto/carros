@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:carros/pages/carro/home_page.dart';
+import 'package:carros/pages/login/login_bloc.dart';
 import 'package:carros/pages/login/usuario.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/utils/show_dialog.dart';
@@ -8,7 +9,6 @@ import 'package:carros/widgets/app_button.dart';
 import 'package:carros/widgets/app_text_form_field.dart';
 import 'package:flutter/material.dart';
 
-import 'login_api.dart';
 import '../../utils/login_api_response.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _streamController = StreamController<bool>();
+  final _bloc = LoginBloc();
 
   //final controleLogin = TextEditingController(text: "user ");
   final controleLogin = TextEditingController();
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 16),
             StreamBuilder<Object>(
-                stream: _streamController.stream,
+                stream: _bloc.stream,
                 initialData: false,
                 builder: (context, snapshot) {
                   return AppButton(
@@ -108,16 +108,12 @@ class _LoginPageState extends State<LoginPage> {
     // controleLogin.text = novo nome
     print("Login: $login senha: $senha");
 
-    _streamController.add(true);
-
-    LoginApiResponse response = await LoginApi.login(login, senha);
+    LoginApiResponse response = await _bloc.login(login, senha);
 
     if (response.ok) {
       push(context, HomePage(), replace: true);
     } else {
       alertDialog(context, response.msg);
-
-      _streamController.add(false);
     }
   }
 
@@ -141,6 +137,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     super.dispose();
-    _streamController.close();
+    _bloc.dispose();
   }
 }
