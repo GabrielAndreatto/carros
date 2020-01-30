@@ -5,6 +5,8 @@ Text showText(
   double fontSize = 16,
   color: Colors.black,
   bold: false,
+  maxLines: 250,
+  overflow: TextOverflow.ellipsis,
 }) {
   return Text(
     s ?? "",
@@ -13,5 +15,7 @@ Text showText(
       color: color,
       fontWeight: bold ? FontWeight.bold : FontWeight.normal,
     ),
+    maxLines: maxLines,
+    overflow: overflow,
   );
 }

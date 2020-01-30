@@ -1,19 +1,32 @@
-import 'package:carros/widgets/lorem_ipsum.dart';
+import 'package:carros/widgets/lorem_ipsum_api.dart';
 import 'package:carros/widgets/show_text.dart';
 import 'package:flutter/material.dart';
 
 import 'carro.dart';
 
-class CarroPage extends StatelessWidget {
+class CarroPage extends StatefulWidget {
   Carro carro;
 
   CarroPage(this.carro);
 
   @override
+  _CarroPageState createState() => _CarroPageState();
+}
+
+class _CarroPageState extends State<CarroPage> {
+  final _loremIpsumBloc = LoremIpsumApiBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    _loremIpsumBloc.fetch();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(carro.nome),
+        title: Text(widget.carro.nome),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.place),
@@ -46,7 +59,7 @@ class CarroPage extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           Image.network(
-            carro.urlFoto ??
+            widget.carro.urlFoto ??
                 "https://storage.googleapis.com/carros-flutterweb.appspot.com/image_picker678672437640469084.jpeg",
           ),
           _blocoOne(),
@@ -61,12 +74,18 @@ class CarroPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            showText(carro.nome, fontSize: 20, bold: true),
-            showText(carro.tipo, fontSize: 16),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              showText(widget.carro.nome,
+                  fontSize: 20,
+                  bold: true,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
+              showText(widget.carro.tipo, fontSize: 16),
+            ],
+          ),
         ),
         Row(
           children: <Widget>[
@@ -96,14 +115,19 @@ class CarroPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(
-          height: 16,
+        SizedBox(height: 16),
+        showText(widget.carro.descricao, fontSize: 16, bold: true),
+        SizedBox(height: 8),
+        StreamBuilder<String>(
+          stream: _loremIpsumBloc.stream,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            return showText(snapshot.data, fontSize: 14);
+          },
         ),
-        showText(carro.descricao, fontSize: 18, bold: true),
-        SizedBox(
-          height: 8,
-        ),
-        showText(LoremIpsum().oneSection, fontSize: 16),
       ],
     );
   }
@@ -127,4 +151,10 @@ class CarroPage extends StatelessWidget {
   }
 
   _onClickIconFavorits() {}
+
+  @override
+  void dispose() {
+    super.dispose();
+    _loremIpsumBloc.dispose();
+  }
 }
