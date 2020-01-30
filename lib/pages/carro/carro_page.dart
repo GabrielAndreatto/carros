@@ -1,3 +1,5 @@
+import 'package:carros/widgets/lorem_ipsum.dart';
+import 'package:carros/widgets/show_text.dart';
 import 'package:flutter/material.dart';
 
 import 'carro.dart';
@@ -41,39 +43,68 @@ class CarroPage extends StatelessWidget {
   _body() {
     return Container(
       padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "${carro.nome}",
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, left: 8.0),
-            child: Text(
-              carro.descricao,
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, left: 8.0),
-            child: Text(
-              carro.tipo,
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
           Image.network(
             carro.urlFoto ??
                 "https://storage.googleapis.com/carros-flutterweb.appspot.com/image_picker678672437640469084.jpeg",
           ),
+          _blocoOne(),
+          _blocoTwo(),
+          Divider(),
         ],
       ),
+    );
+  }
+
+  _blocoOne() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            showText(carro.nome, fontSize: 20, bold: true),
+            showText(carro.tipo, fontSize: 16),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.favorite,
+                color: Colors.red,
+                size: 32,
+              ),
+              onPressed: () => _onClickIconFavorits(),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.share,
+                color: Colors.black38,
+                size: 32,
+              ),
+              onPressed: () => _onClickIconFavorits(),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  _blocoTwo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          height: 16,
+        ),
+        showText(carro.descricao, fontSize: 18, bold: true),
+        SizedBox(
+          height: 8,
+        ),
+        showText(LoremIpsum().oneSection, fontSize: 16),
+      ],
     );
   }
 
@@ -94,4 +125,6 @@ class CarroPage extends StatelessWidget {
         break;
     }
   }
+
+  _onClickIconFavorits() {}
 }
