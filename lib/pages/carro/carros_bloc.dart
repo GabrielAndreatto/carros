@@ -8,10 +8,12 @@ class CarrosBloc {
 
   get stream => _streamController.stream;
 
-  void fetch(String tipoCarros) async {
+  Future<List<Carro>> fetch(String tipoCarros) async {
     try {
       List<Carro> carros = await CarroApi.getCarros(tipoCarros);
       _streamController.add(carros);
+
+      return carros;
     } catch (e) {
       _streamController.addError(e);
       print(e);
