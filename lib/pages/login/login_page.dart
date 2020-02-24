@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:carros/pages/carro/home_page.dart';
+import 'package:carros/pages/carros/home_page.dart';
 import 'package:carros/pages/login/login_bloc.dart';
 import 'package:carros/pages/login/usuario.dart';
 import 'package:carros/utils/nav.dart';
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
     //String senha = controleSenha.text = "123";
 
     // controleLogin.text = novo nome
-    print("Login: $login senha: $senha");
+    ("Login: $login senha: $senha");
 
     LoginApiResponse response = await _bloc.login(login, senha);
 

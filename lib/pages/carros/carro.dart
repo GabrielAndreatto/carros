@@ -1,5 +1,4 @@
 // https://javiercbk.github.io/json_to_dart/
-
 class Carro {
   int id;
   String nome;
