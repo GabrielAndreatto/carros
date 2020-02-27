@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carros/widgets/lorem_ipsum_api.dart';
 import 'package:carros/widgets/show_text.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +59,8 @@ class _CarroPageState extends State<CarroPage> {
       padding: EdgeInsets.all(16),
       child: ListView(
         children: <Widget>[
-          Image.network(
-            widget.carro.urlFoto ??
+          CachedNetworkImage(
+            imageUrl: widget.carro.urlFoto ??
                 "https://storage.googleapis.com/carros-flutterweb.appspot.com/image_picker678672437640469084.jpeg",
           ),
           _blocoOne(),

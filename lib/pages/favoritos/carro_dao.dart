@@ -17,6 +17,8 @@ class CarroDAO extends BaseDAO<Carro> {
     final list =
         await dbClient.rawQuery('select * from carro where tipo =? ', [tipo]);
 
-    return list.map<Carro>((json) => fromMap(json)).toList();
+    List<Carro> carros = list.map<Carro>((json) => fromMap(json)).toList();
+
+    return carros;
   }
 }
